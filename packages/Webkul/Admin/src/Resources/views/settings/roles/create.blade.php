@@ -9,7 +9,7 @@
         {!! view_render_event('admin.settings.roles.create.header.before') !!}
 
         <div class="page-header">
-            
+
             {{ Breadcrumbs::render('settings.roles.create') }}
 
             <div class="page-title">
@@ -41,7 +41,7 @@
                             {!! view_render_event('admin.settings.roles.create.form_controls.before') !!}
 
                             @csrf()
-                            
+
                             <div class="form-group" :class="[errors.has('name') ? 'has-error' : '']">
                                 <label class="required">
                                     {{ __('admin::app.layouts.name') }}

@@ -102,6 +102,8 @@
                                 <label for="type" class="required">{{ __('admin::app.settings.attributes.type') }}</label>
 
                                 <select class="control" id="type" name="type">
+                                    <option>- PILIH -</option>
+                                    <option value="htmleditor">{{ __('admin::app.settings.attributes.htmleditor') }}</option>
                                     <option value="text">{{ __('admin::app.settings.attributes.text') }}</option>
                                     <option value="textarea">{{ __('admin::app.settings.attributes.textarea') }}</option>
                                     <option value="price">{{ __('admin::app.settings.attributes.price') }}</option>
@@ -268,7 +270,7 @@
 
                     optionType: 'lookup',
 
-                    typesHasOptions: ['select', 'multiselect', 'checkbox', 'lookup'],
+                    typesHasOptions: ['boolean', 'select', 'multiselect', 'checkbox', 'lookup'],
 
                     lookupEntityTypes: @json(config('attribute_lookups')),
                 }
@@ -277,6 +279,7 @@
             mounted: function() {
                 $('#type').on('change', event => {
                     this.typeValue = $(event.target).val();
+                    // console.log(this.typeValue);
 
                     if (this.typesHasOptions.indexOf(this.typeValue) === -1) {
                         $('#options').addClass('hide');

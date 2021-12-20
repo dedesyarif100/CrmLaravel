@@ -235,6 +235,7 @@ return [
         Webkul\UI\Providers\UIServiceProvider::class,
         Webkul\User\Providers\UserServiceProvider::class,
         Webkul\Workflow\Providers\WorkflowServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -288,6 +289,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Menu' => Webkul\Admin\Facades\Menu::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
     ],
 
 ];

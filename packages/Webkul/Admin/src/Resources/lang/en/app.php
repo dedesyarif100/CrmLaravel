@@ -483,6 +483,7 @@
                 'code'                  => 'Code',
                 'name'                  => 'Name',
                 'type'                  => 'Type',
+                'htmleditor'            => 'Htmleditor',
                 'text'                  => 'Text',
                 'textarea'              => 'Textarea',
                 'price'                 => 'Price',

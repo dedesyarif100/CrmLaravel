@@ -2,6 +2,7 @@
     $formScope = $formScope ?? '';
 @endphp
 
+{{-- @dd($customAttributes) --}}
 @foreach ($customAttributes as $attribute)
 
     @php
@@ -35,7 +36,6 @@
     @endphp
 
     @if (view()->exists($typeView = 'admin::common.custom-attributes.edit.' . $attribute->type))
-
         <div
             class="form-group {{ $attribute->type }}"
             @if ($attribute->type == 'multiselect') :class="[errors.has('{{ $formScope . $attribute->code }}[]') ? 'has-error' : '']"
@@ -58,7 +58,7 @@
                 @if ($attribute->type == 'multiselect') v-if="errors.has('{{ $formScope . $attribute->code }}[]')"
                 @else  v-if="errors.has('{{ $formScope . $attribute->code }}')"  @endif
             >
-                
+
                 @if ($attribute->type == 'multiselect')
                     @{{ errors.first('{!! $formScope . $attribute->code !!}[]') }}
                 @else

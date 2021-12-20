@@ -22,7 +22,7 @@
                         <li class="action" v-if='search_term.length && ! is_searching' @click="createNew()">
                             <span>
                                 + {{ __('admin::app.common.add-as', ['attribute' => $attribute->name]) }}
-                            </span> 
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -74,7 +74,7 @@
                     }
 
                     var self = this;
-                    
+
                     this.$http.get("{{ route('admin.settings.attributes.lookup', $attribute->lookup_type) }}", {params: {query: this.search_term}})
                         .then (function(response) {
                             self.results = response.data;

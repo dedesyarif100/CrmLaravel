@@ -54,12 +54,12 @@ class AttributeValueRepository extends Repository
         if (isset($data['quick_add'])) {
             $conditions['quick_add'] = 1;
         }
-        
+
         $attributes = $this->attributeRepository->findWhere($conditions);
 
         foreach ($attributes as $attribute) {
             $typeColumn = $this->model::$attributeTypeFields[$attribute->type];
-            
+
             if ($attribute->type === 'boolean') {
                 $data[$attribute->code] = isset($data[$attribute->code]) && $data[$attribute->code] ? 1 : 0;
             }
@@ -143,7 +143,7 @@ class AttributeValueRepository extends Repository
 
     /**
      * Removed null values from email and phone fields.
-     * 
+     *
      * @param  array  $data
      * @return array
      */
