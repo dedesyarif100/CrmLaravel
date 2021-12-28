@@ -222,6 +222,7 @@ class QuoteDataGrid extends DataGrid
             'method' => 'GET',
             'route'  => 'admin.quotes.print',
             'icon'   => 'export-icon',
+            'target' => '_blank'
         ]);
 
         $this->addAction([

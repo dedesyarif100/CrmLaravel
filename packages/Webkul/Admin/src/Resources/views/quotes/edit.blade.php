@@ -18,7 +18,7 @@
         </div>
 
         {!! view_render_event('admin.quotes.edit.header.after', ['quote' => $quote]) !!}
-
+        {{-- @dd('cek') --}}
         <form method="POST" action="{{ route('admin.quotes.update', $quote->id) }}" @submit.prevent="onSubmit" enctype="multipart/form-data">
 
             <div class="page-content">
@@ -58,6 +58,7 @@
                                                         'user_id',
                                                         'subject',
                                                         'description',
+                                                        'term_and_condition',
                                                         'expired_at',
                                                         'person_id',
                                                     ]);
@@ -152,6 +153,8 @@
 @stop
 
 @push('scripts')
+    <script src="{{ asset('vendor/webkul/admin/assets/js/tinyMCE/tinymce.min.js') }}"></script>
+
     <script type="text/x-template" id="quote-item-list-template">
         <div class="quote-item-list">
             <div class="table">
@@ -659,15 +662,142 @@
             }
         });
     </script>
-    <script src="{{ asset('vendor/webkul/admin/assets/js/tinyMCE/tinymce.min.js') }}"></script>
 
     <script>
-        setTimeout(function() {
-            //your code to be executed after 1 second
+        window.onload = function() {
             tinymce.init({
                 selector: 'textarea#description'
-            })
-        }, 1000);
+            });
+        };
 
+        let selectedTemplate = [];
+
+        const markup = [
+            // {
+            //     id: 1,
+            //     Template: 'Perjanjian Kerja'
+            // },
+            // {
+            //     id: 2,
+            //     Template: 'Asuransi Kerja'
+            // },
+            // {
+            //     id: 3,
+            //     Template: 'Upah By Project'
+            // },
+        ];
+
+        $(function() {
+            function selectionChanged(e) {
+                selectedTemplate = e.selectedRowsData.map((data) => {
+                    return data.Template;
+                });
+            }
+
+            let popupInstance;
+            let string;
+            let data;
+            let tampung = [];
+            let textarea;
+
+            let tabel = $('#gridContainer').dxDataGrid({
+                dataSource: markup,
+                keyExpr: 'id',
+                showBorders: true,
+                selection: {
+                    mode: 'multiple',
+                    showCheckBoxesMode: "always"
+                },
+                paging: {
+                    enabled: false,
+                },
+                editing: {
+                    mode: 'batch',
+                    allowUpdating: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    selectTextOnEditStart: true,
+                    startEditAction: 'click',
+                },
+                columns: [
+                    {
+                        dataField: 'Template',
+                    }
+                ],
+                onSelectionChanged: selectionChanged
+            }).dxDataGrid('instance');
+
+            let send = $('#submitButton').dxButton({
+                stylingMode: 'contained',
+                text: 'Contained',
+                type: 'success',
+                width: 120,
+                onClick() {
+                    DevExpress.ui.notify('The Contained button was clicked');
+                    console.log(typeof(editorInstance));
+                    $('#popup').dxPopup('hide');
+                },
+            });
+
+            $(document).on('click', '#submitButton', function() {
+                console.log('button telah di klik');
+                selectedTemplate.map((val) => {
+                    data = $('.ql-editor').text();
+                    textarea = $('.ql-editor').text( data + ' - ' + val + '\n');
+                    // DILANJUTKAN BESOK UNTUK MAPPING NYA
+                });
+            });
+
+            // ---------------------------------------------------------
+            const editorInstance = $('.html-editor').dxHtmlEditor({
+                onValueChanged(e) {
+                    $('#term_and_condition').html(e.value)
+                },
+                toolbar: {
+                    items: [
+                        'undo',
+                        'redo',
+                        'separator',
+                        {
+                            name: 'header',
+                            acceptedValues: [false, 1, 2, 3, 4, 5],
+                        },
+                        'separator',
+                        'bold',
+                        'italic',
+                        'strike',
+                        'underline',
+                        'separator',
+                        'alignLeft',
+                        'alignCenter',
+                        'alignRight',
+                        'alignJustify',
+                        'separator',
+                        'orderedList',
+                        'bulletList',
+                        {
+                            widget: 'dxButton',
+                            options: {
+                                text: 'Tunjukan Markup',
+                                stylingMode: 'text',
+                                onClick() {
+                                    popupInstance.show();
+                                },
+                            },
+                        },
+                    ],
+                }
+            }).dxHtmlEditor('instance');
+
+            popupInstance = $('#popup').dxPopup({
+                showTitle: true,
+                title: 'Markup',
+                onShowing() {
+                    $('.value-content').text(tabel.option('value'));
+                    // $('.value-content').text(editorInstance.option('value'));
+                }
+            }).dxPopup('instance');
+            console.log(popupInstance);
+        });
     </script>
 @endpush

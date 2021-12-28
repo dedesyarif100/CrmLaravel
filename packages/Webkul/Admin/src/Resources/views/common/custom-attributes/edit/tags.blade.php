@@ -16,7 +16,7 @@
                     v-for="(tag, index) in tags"
                     :class="[errors.has(attribute['code'] + '[' + index + '][value]') ? 'has-error' : '']"
                 >
-                
+
                     <input
                         type="text"
                         class="control"
@@ -102,7 +102,7 @@
                         }
 
                         var self = this;
-                        
+
                         this.$http.get(this.search_route, {params: {query: this.search_term}})
                             .then (function(response) {
                                 self.results = response.data;
@@ -113,7 +113,7 @@
                                 self.is_searching = false;
                             })
                     }, 500),
-                    
+
                     addTag: function(tag) {
                         this.state = 'old';
 

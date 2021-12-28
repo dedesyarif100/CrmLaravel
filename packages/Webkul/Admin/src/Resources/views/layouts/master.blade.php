@@ -25,24 +25,12 @@
         <link rel="stylesheet" href="{{ asset('vendor/webkul/ui/assets/css/ui.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/webkul/admin/assets/css/admin.css') }}">
 
+        {{-- Dev Extreme --}}
 
-        {{-- Text Editor --}}
-
-        {{-- <title>DevExtreme Demo</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))</script>
         <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/21.2.4/css/dx.common.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/21.2.4/css/dx.light.css" />
-        <script src="https://unpkg.com/devextreme-quill@1.5.7/dist/dx-quill.min.js"></script>
-        <script src="https://cdn3.devexpress.com/jslib/21.2.4/js/dx.all.js"></script>
-        <script src="data.js"></script>
-        <link rel="stylesheet" type="text/css" href="styles.css" />
-        <script src="index.js"></script> --}}
 
-        {{-- Text Editor --}}
+        {{-- Dev Extreme --}}
 
 
         @yield('head')
@@ -111,6 +99,9 @@
 
         <script type="text/javascript" src="{{ asset('vendor/webkul/admin/assets/js/admin.js') }}"></script>
         <script type="text/javascript" src="{{ asset('vendor/webkul/ui/assets/js/ui.js') }}"></script>
+
+        <script src="https://unpkg.com/devextreme-quill@1.5.7/dist/dx-quill.min.js"></script>
+        <script src="https://cdn3.devexpress.com/jslib/21.2.4/js/dx.all.js"></script>
 
         @stack('scripts')
 

@@ -1,15 +1,12 @@
-{{-- <textarea
-    name="{{ $attribute->code }}HtmlEditor"
-    class="control"
-    id="{{ $attribute->code }}HtmlEditor"
-    v-validate="'{{$validations}}'"
-    data-vv-as="&quot;{{ $attribute->name }}&quot;"
-    v-pre>{{ old($attribute->code) ?: $value}}</textarea> --}}
-
-<textarea
-name="reply"
-class="control"
-id="HTMLEditor"
-v-validate="'required'"
-data-vv-as="&quot;{{ __('admin::app.leads.reply') }}&quot;"
-></textarea>
+<div class="html-editor"></div>
+<textarea name="{{ $attribute->code }}" id="{{ $attribute->code }}" style="display: none;"> {{ old($attribute->code) ?: $value }} </textarea>
+<div id="popup">
+    <div class="value-content">
+        <div id="gridContainer"></div>
+        <div class="options">
+            <div class="option">
+                <div id="submitButton"></div>
+            </div>
+        </div>
+    </div>
+</div>
