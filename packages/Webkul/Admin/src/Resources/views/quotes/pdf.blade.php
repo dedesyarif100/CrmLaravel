@@ -25,7 +25,7 @@
                 margin: 0;
                 display: block;
                 /* background-color: yellow; */
-                margin-top: 40px;
+                /* padding-top: 40px; */
             }
 
             .quote-summary {
@@ -98,16 +98,21 @@
                 text-align: center;
             }
 
+            @page {
+                margin-top: 100px;
+            }
+
             /** Define the header rules **/
             header {
                 position: fixed;
-                top: 0cm;
+                top: -50px;
                 left: 0cm;
                 right: 0cm;
-                height: 7cm;
+                height: 3cm;
                 /* background-color: red; */
-                padding-bottom: 10px;
-                opacity: 0.7;
+                border-bottom: 5px solid #af974f;
+                /* padding-bottom: 10px; */
+                /* opacity: 0.7; */
             }
 
             /** Define the footer rules **/
@@ -154,10 +159,11 @@
                         Surabaya - East Java <br>
                         Indonesia 60269
                     </div>
-                    <hr style="border: 1px solid black;">
                 </div>
             </div>
         </header>
+        {{-- <hr style="border: 1px solid black;"> --}}
+
 
         {{-- <footer>
             Copyright 2021
