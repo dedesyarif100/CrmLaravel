@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="Cache-control" content="no-cache">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
 
         <style type="text/css">
             * {
@@ -23,6 +24,8 @@
                 padding: 0px;
                 margin: 0;
                 display: block;
+                /* background-color: yellow; */
+                margin-top: 40px;
             }
 
             .quote-summary {
@@ -101,7 +104,10 @@
                 top: 0cm;
                 left: 0cm;
                 right: 0cm;
-                height: 2cm;
+                height: 7cm;
+                /* background-color: red; */
+                padding-bottom: 10px;
+                opacity: 0.7;
             }
 
             /** Define the footer rules **/
@@ -112,18 +118,43 @@
                 right: 0cm;
                 height: 2cm;
             }
+
+            .row {
+                content: "";
+                /* display: table; */
+                /* clear: both; */
+            }
+
+            .col {
+                float: left;
+                width: 70%;
+                padding: 10px;
+                font-size: 10px;
+            }
+            img {
+                width: 50%;
+            }
         </style>
     </head>
 
     <body style="background-image: none; background-color: #fff;">
 
         <header>
-            <div class="d-flex justify-content-between">
-                <div class="col-4">
-                    <img src="{{ public_path('storage/logo/monster-logo.png') }}"/>
-                </div>
-                <div class="col-4">
-                    aaaaa
+            <div class="justify-conten-center">
+                <div class="row">
+                    <div class="col">
+                        <img src="{{ public_path('storage/logo/monster-logo.png') }}"/>
+                    </div>
+                    <div class="col">
+                        <strong>MONSTER GROUP INDONESIA</strong> <br>
+                        Surabaya Branch
+                        <i class="fa fa-phone-alt"></i> <br>
+                        +6231 8785 8782 <br>
+                        Jl. Wonorejo Permai Utara V No. 2 <br>
+                        Surabaya - East Java <br>
+                        Indonesia 60269
+                    </div>
+                    <hr style="border: 1px solid black;">
                 </div>
             </div>
         </header>
