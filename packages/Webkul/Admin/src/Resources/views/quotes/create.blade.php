@@ -1,8 +1,10 @@
 @extends('admin::layouts.master')
-
 @section('page_title')
     {{ __('admin::app.quotes.create-title') }}
 @stop
+
+
+
 
 @section('content-wrapper')
     @php
@@ -71,7 +73,7 @@
                                                         'description',
                                                         'expired_at',
                                                         'person_id',
-                                                        'HTMLEditor'
+                                                        // 'HTMLEditor'
                                                     ]);
                                             })->get(),
                                         'customValidations' => [
@@ -83,6 +85,7 @@
                                         ],
                                         'entity' => $quote,
                                     ])
+
 
                                     {{-- Lead Field --}}
                                     <div class="form-group">
@@ -658,5 +661,18 @@
                 }
             }
         });
+    </script>
+
+    <script src="{{ asset('vendor/webkul/admin/assets/js/tinyMCE/tinymce.min.js') }}"></script>
+
+    <script>
+        setTimeout(function() {
+            //your code to be executed after 1 second
+            tinymce.init({
+                selector: 'textarea#description'
+            })
+            $("#description").val('content');
+        }, 1000);
+
     </script>
 @endpush

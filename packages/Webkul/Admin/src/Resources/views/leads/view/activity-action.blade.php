@@ -312,7 +312,7 @@
 
                         <div class="form-group" :class="[errors.has('email-form.reply') ? 'has-error' : '']">
                             <label for="reply" class="required" style="margin-bottom: 10px">{{ __('admin::app.leads.reply') }}</label>
-
+                            aaaaa
                             <textarea
                                 name="reply"
                                 class="control"
@@ -450,7 +450,7 @@
 
             mounted: function() {
                 var self = this;
-                
+
                 tinymce.init({
                     selector: 'textarea#reply',
 

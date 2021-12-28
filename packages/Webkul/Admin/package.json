@@ -13,7 +13,7 @@
         "axios": "^0.21",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
-        "laravel-mix": "^6.0.6",
+        "laravel-mix": "^6.0.39",
         "laravel-mix-merge-manifest": "^2.0.0",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "devextreme": "^21.2.4",
         "moment": "^2.29.1",
         "vee-validate": "^2.2.15",
         "vue-cal": "^3.10.1",

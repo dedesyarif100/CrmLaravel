@@ -172,7 +172,7 @@
                                     <label class="required">
                                         {{ __('admin::app.quotes.quantity') }}
                                     </label>
-                                </div>                                
+                                </div>
                             </th>
 
                             <th class="price">
@@ -193,7 +193,7 @@
                                 </div>
                             </th>
 
-                            <th class="discount">                            
+                            <th class="discount">
                                 <div class="form-group">
                                     <label class="required">
                                         {{ __('admin::app.quotes.discount') }}
@@ -212,7 +212,7 @@
                             </th>
 
                             <th class="total">
-                                <div class="form-group">     
+                                <div class="form-group">
                                     {{ __('admin::app.quotes.total') }}
                                     <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                                     </div>
@@ -658,5 +658,16 @@
                 }
             }
         });
+    </script>
+    <script src="{{ asset('vendor/webkul/admin/assets/js/tinyMCE/tinymce.min.js') }}"></script>
+
+    <script>
+        setTimeout(function() {
+            //your code to be executed after 1 second
+            tinymce.init({
+                selector: 'textarea#description'
+            })
+        }, 1000);
+
     </script>
 @endpush
