@@ -103,6 +103,7 @@
 
                                 <select class="control" id="type" name="type">
                                     <option>- PILIH -</option>
+                                    <option value="create_term_and_condition">{{ __('admin::app.settings.attributes.create_term_and_condition') }}</option>
                                     <option value="htmleditor">{{ __('admin::app.settings.attributes.htmleditor') }}</option>
                                     <option value="text">{{ __('admin::app.settings.attributes.text') }}</option>
                                     <option value="textarea">{{ __('admin::app.settings.attributes.textarea') }}</option>

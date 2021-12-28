@@ -29,6 +29,7 @@ class Quote extends Model implements QuoteContract
     protected $fillable = [
         'subject',
         'description',
+        'term_and_condition',
         'billing_address',
         'shipping_address',
         'discount_percent',

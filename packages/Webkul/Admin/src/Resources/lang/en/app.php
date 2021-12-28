@@ -227,6 +227,7 @@
 
         'quotes' => [
             'title'               => 'Quotes',
+            'description'         => 'Description',
             'quote'               => 'Quote',
             'create-title'        => 'Create Quote',
             'edit-title'          => 'Edit Quote',

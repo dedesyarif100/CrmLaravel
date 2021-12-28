@@ -5,7 +5,6 @@
 {!! view_render_event('admin.leads.view.informations.activity_actions.after', ['lead' => $lead]) !!}
 
 @push('scripts')
-
     <script type="text/x-template" id="activity-action-component-template">
         <tabs>
             {!! view_render_event('admin.leads.view.informations.activity_actions.note.before', ['lead' => $lead]) !!}
@@ -450,7 +449,7 @@
 
             mounted: function() {
                 var self = this;
-                
+
                 tinymce.init({
                     selector: 'textarea#reply',
 

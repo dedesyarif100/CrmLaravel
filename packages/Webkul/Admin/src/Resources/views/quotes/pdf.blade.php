@@ -88,19 +88,45 @@
             .text-center {
                 text-align: center;
             }
+
+            /** Define the header rules **/
+            header {
+                position: fixed;
+                top: 0cm;
+                left: 0cm;
+                right: 0cm;
+                height: 3cm;
+            }
+
+            /** Define the footer rules **/
+            footer {
+                position: fixed;
+                bottom: 0cm;
+                left: 0cm;
+                right: 0cm;
+                height: 2cm;
+            }
         </style>
     </head>
 
     <body style="background-image: none; background-color: #fff;">
-        <div class="container">
 
+        <header>
+            <img src="{{ public_path('storage/logo/monster-logo.png') }}"/>
+        </header>
+
+        {{-- <footer>
+            Copyright 2021
+        </footer> --}}
+
+        <div class="container">
             <div class="header">
                 <div class="row">
                     <div class="col-12">
                         <h1 class="text-center">{{ __('admin::app.quotes.quote') }}</h1>
                     </div>
                 </div>
-
+                {{-- @dd( public_path('storage/logo/monster-logo.png') ) --}}
                 <div class="image">
                     {{-- <img class="logo" src="{{ Storage::url(core()->getConfigData('sales.orderSettings.quote_slip_design.logo')) }}"/> --}}
                 </div>
@@ -172,6 +198,8 @@
 
                                 <th>{{ __('admin::app.quotes.product-name') }}</th>
 
+                                {{-- <th>{{ __('admin::app.quotes.description') }}</th> --}}
+
                                 <th class="text-center">{{ __('admin::app.quotes.price') }}</th>
 
                                 <th class="text-center">{{ __('admin::app.quotes.quantity') }}</th>
@@ -186,8 +214,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
-
+                        {{-- <tbody>
                             @foreach ($quote->items as $item)
                                 <tr>
                                     <td>{{ $item->sku }}</td>
@@ -195,6 +222,8 @@
                                     <td>
                                         {{ $item->name }}
                                     </td>
+
+                                    <td>{{ $quote->description }}</td>
 
                                     <td>{!! core()->formatBasePrice($item->price, true) !!}</td>
 
@@ -209,11 +238,52 @@
                                     <td class="text-center">{!! core()->formatBasePrice($item->total + $item->tax_amount, true) !!}</td>
                                 </tr>
                             @endforeach
-
+                        </tbody> --}}
+                        <tbody>
+                            @foreach ($quote->items as $item)
+                                <tr>
+                                    <td>{{ $item->sku }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ number_format($item->price, 2, ',', '.') }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ number_format($item->total, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($item->discount_amount, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($item->tax_amount, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($item->total + $item->tax_amount, 2, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
+                <div class="table items">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>{{ __('admin::app.quotes.description') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{!! $quote->description !!}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table items">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Term And Condition</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{!! $quote->term_and_condition !!}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <table class="sale-summary">
                     <tr>

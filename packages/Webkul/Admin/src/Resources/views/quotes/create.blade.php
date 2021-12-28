@@ -59,9 +59,8 @@
                             <accordian :title="'{{ __('admin::app.quotes.quote-information') }}'" :active="true">
                                 <div slot="body">
 
-                                    {{-- Sales Owner, Subject, Description, Expired At, Person --}}
-                                    @include('admin::common.custom-attributes.edit',
-                                        ['customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')
+                                    @include('admin::common.custom-attributes.edit', [
+                                        'customAttributes'       => app('Webkul\Attribute\Repositories\AttributeRepository')
                                             ->scopeQuery(function($query) {
                                                 return $query
                                                     ->where('entity_type', 'quotes')
@@ -69,22 +68,21 @@
                                                         'user_id',
                                                         'subject',
                                                         'description',
+                                                        'term_and_condition',
                                                         'expired_at',
                                                         'person_id',
-                                                        'HTMLEditor'
                                                     ]);
                                             })->get(),
-                                        'customValidations' => [
+                                        'customValidations'      => [
                                             'expired_at' => [
                                                'required',
                                                'date_format:yyyy-MM-dd',
                                                'after:' .  \Carbon\Carbon::yesterday()->format('Y-m-d')
                                             ],
                                         ],
-                                        'entity' => $quote,
+                                        'entity'                  => $quote,
                                     ])
 
-                                    {{-- Lead Field --}}
                                     <div class="form-group">
                                         <label for="validation">{{ __('admin::app.quotes.lead') }}</label>
 
@@ -157,6 +155,8 @@
 @stop
 
 @push('scripts')
+    <script src="{{ asset('vendor/webkul/admin/assets/js/tinyMCE/tinymce.min.js') }}"></script>
+
     <script type="text/x-template" id="quote-item-list-template">
         <div class="quote-item-list">
             <div class="table">
@@ -657,6 +657,201 @@
                     this.$emit('onRemoveProduct', this.product);
                 }
             }
+        });
+    </script>
+
+    <script>
+        window.onload = function() {
+            tinymce.init({
+                selector: 'textarea#description'
+            });
+        };
+
+        let selectedTemplate = [];
+
+        // window.onload = function() {
+        //     tinymce.init({
+        //         selector: 'textarea#description',
+        //         menubar: false,
+        //     });
+        //     tinymce.init({
+        //         selector: 'textarea#term_and_condition',
+        //         menubar: false,
+        //     });
+        //     tinymce.init({
+        //         selector: 'textarea#term_and_condition_editor',
+        //         menubar: false,
+        //         plugins: 'table',
+        //         menu: {
+        //             happy: {title: 'Happy', items: 'code'}
+        //         },
+        //         toolbar: "dummyimg | bold italic underline strikethrough | formatselect | fontsizeselect | bullist numlist | outdent indent blockquote | link image | cut copy paste | undo redo | code",
+        //         setup: function(ed) {
+        //             ed.addButton('dummyimg', {
+        //                 title : 'Edit Image',
+        //                 image : 'img/example.gif',
+        //                 onclick: function() {
+        //                     ed.windowManager.open({
+        //                         width : 800 + parseInt(ed.getLang('emotions.delta_width', 0)),
+        //                         height : 400 + parseInt(ed.getLang('emotions.delta_height', 0)),
+        //                         inline : 1,
+        //                         title: 'Edit image 123',
+        //                         body: [
+        //                             {type: 'textbox', name: 'source', label: 'Source'},
+        //                             {type: 'button', text: 'input', primary: true, name: 'input'}
+        //                         ]
+        //                     });
+        //                 }
+        //             });
+        //         }
+        //     });
+        // };
+
+
+        const markup = [
+            // {
+            //     id: 1,
+            //     Template: 'Perjanjian Kerja'
+            // },
+            // {
+            //     id: 2,
+            //     Template: 'Asuransi Kerja'
+            // },
+            // {
+            //     id: 3,
+            //     Template: 'Upah By Project'
+            // },
+        ];
+
+        $(function() {
+            // $(document).on('click', '#input', function() {
+            //     // let data = $('#term_and_condition_editor').text();
+            //     // let data = $(tinymce.activeEditor.getBody());
+            //     // $('#create_term_and_condition').each(function() {
+            //     //     let q = $(this).val();
+            //     //     // $('#term_and_condition_editor').text(data + ' - ' + q + '\n');
+            //     //     // tinymce.activeEditor.setContent(q);
+            //     //     let x = data.find('p').last().append('<p></p>');
+            //     //     console.log(x);
+            //     //     let tiny = tinymce.get('term_and_condition_editor').setContent(' - ' + q + '\n');
+            //     //     console.log(tiny);
+            //     // });
+
+            //     let input = $('#create_term_and_condition').val();
+            //     let x = tinymce.get('term_and_condition_editor').getContent();
+            //     tinymce.get('term_and_condition_editor').setContent(x + ' - ' + input + '\n');
+            // });
+
+            function selectionChanged(e) {
+                selectedTemplate = e.selectedRowsData.map((data) => {
+                    return data.Template;
+                });
+            }
+
+            let popupInstance;
+            let string;
+            let data;
+            let tampung = [];
+            let textarea;
+
+            let tabel = $('#gridContainer').dxDataGrid({
+                dataSource: markup,
+                keyExpr: 'id',
+                showBorders: true,
+                selection: {
+                    mode: 'multiple',
+                    showCheckBoxesMode: "always"
+                },
+                paging: {
+                    enabled: false,
+                },
+                editing: {
+                    mode: 'batch',
+                    allowUpdating: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    selectTextOnEditStart: true,
+                    startEditAction: 'click',
+                },
+                columns: [
+                    {
+                        dataField: 'Template',
+                    }
+                ],
+                onSelectionChanged: selectionChanged
+            }).dxDataGrid('instance');
+
+            let send = $('#submitButton').dxButton({
+                stylingMode: 'contained',
+                text: 'Contained',
+                type: 'success',
+                width: 120,
+                onClick() {
+                    DevExpress.ui.notify('The Contained button was clicked');
+                    console.log(typeof(editorInstance));
+                    $('#popup').dxPopup('hide');
+                },
+            });
+
+            $(document).on('click', '#submitButton', function() {
+                console.log('button telah di klik');
+                selectedTemplate.map((val) => {
+                    data = $('.ql-editor').text();
+                    textarea = $('.ql-editor').text( data + ' - ' + val + '\n');
+                    // DILANJUTKAN BESOK UNTUK MAPPING NYA
+                });
+            });
+
+            // ---------------------------------------------------------
+            const editorInstance = $('.html-editor').dxHtmlEditor({
+                onValueChanged(e) {
+                    $('#term_and_condition').html(e.value)
+                },
+                toolbar: {
+                    items: [
+                        'undo',
+                        'redo',
+                        'separator',
+                        {
+                            name: 'header',
+                            acceptedValues: [false, 1, 2, 3, 4, 5],
+                        },
+                        'separator',
+                        'bold',
+                        'italic',
+                        'strike',
+                        'underline',
+                        'separator',
+                        'alignLeft',
+                        'alignCenter',
+                        'alignRight',
+                        'alignJustify',
+                        'separator',
+                        'orderedList',
+                        'bulletList',
+                        {
+                            widget: 'dxButton',
+                            options: {
+                                text: 'Tunjukan Markup',
+                                stylingMode: 'text',
+                                onClick() {
+                                    popupInstance.show();
+                                },
+                            },
+                        },
+                    ],
+                }
+            }).dxHtmlEditor('instance');
+
+            popupInstance = $('#popup').dxPopup({
+                showTitle: true,
+                title: 'Markup',
+                onShowing() {
+                    $('.value-content').text(tabel.option('value'));
+                    // $('.value-content').text(editorInstance.option('value'));
+                }
+            }).dxPopup('instance');
+            console.log(popupInstance);
         });
     </script>
 @endpush

@@ -54,7 +54,6 @@ class QuoteController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            // dd('cek');
             return app(QuoteDataGrid::class)->toJson();
         }
 
@@ -107,7 +106,6 @@ class QuoteController extends Controller
     public function edit($id)
     {
         $quote = $this->quoteRepository->findOrFail($id);
-        // dd($quote);
 
         return view('admin::quotes.edit', compact('quote'));
     }
@@ -121,7 +119,6 @@ class QuoteController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
-        // dd($request);
         Event::dispatch('quote.update.before', $id);
 
         $quote = $this->quoteRepository->update(request()->all(), $id);
@@ -211,10 +208,9 @@ class QuoteController extends Controller
     public function print($id)
     {
         $quote = $this->quoteRepository->findOrFail($id);
-        // dd($quote);
 
         return PDF::loadHTML(view('admin::quotes.pdf', compact('quote'))->render())
             ->setPaper('a4')
-            ->download('Quote_' . $quote->subject . '.pdf');
+            ->stream('Quote_' . $quote->subject . '.pdf');
     }
 }
