@@ -8,14 +8,20 @@
             * {
                 font-family: DejaVu Sans;
             }
-
+            body {
+                margin-top: 2cm;
+                margin-left: 0;
+                margin-right: 0;
+                margin-bottom: 2cm;
+            }
             body, th, td, h5 {
                 font-size: 12px;
                 color: #000;
             }
 
             .container {
-                padding: 20px;
+                padding: 0px;
+                margin: 0;
                 display: block;
             }
 
@@ -95,7 +101,7 @@
                 top: 0cm;
                 left: 0cm;
                 right: 0cm;
-                height: 3cm;
+                height: 2cm;
             }
 
             /** Define the footer rules **/
@@ -112,7 +118,14 @@
     <body style="background-image: none; background-color: #fff;">
 
         <header>
-            <img src="{{ public_path('storage/logo/monster-logo.png') }}"/>
+            <div class="d-flex justify-content-between">
+                <div class="col-4">
+                    <img src="{{ public_path('storage/logo/monster-logo.png') }}"/>
+                </div>
+                <div class="col-4">
+                    aaaaa
+                </div>
+            </div>
         </header>
 
         {{-- <footer>
