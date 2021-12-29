@@ -60,9 +60,11 @@ class QuoteRepository extends Repository
      */
     public function create(array $data)
     {
+        // dd($this->quoteItemRepository);
         $quote = parent::create($data);
 
-        $this->attributeValueRepository->save($data, $quote->id);
+        // $this->attributeValueRepository->save($data, $quote->id);
+        // CARI TAU, KENAPA INI BISA MACET KETIKA CREATE QUOTE
 
         foreach ($data['items'] as $itemData) {
             $this->quoteItemRepository->create(array_merge($itemData, [
@@ -85,7 +87,7 @@ class QuoteRepository extends Repository
 
         parent::update($data, $id, $attribute);
 
-        $this->attributeValueRepository->save($data, $id);
+        // $this->attributeValueRepository->save($data, $id);
 
         if (! isset($data['_method'])) {
             return $quote;

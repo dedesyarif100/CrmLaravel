@@ -71,7 +71,7 @@
                 border-right: solid 1px #d3d3d3;
             }
 
-           .sale-summary {
+            .sale-summary {
                 margin-top: 40px;
                 float: right;
             }
@@ -139,6 +139,10 @@
             img {
                 width: 50%;
             }
+
+            .quote_item, .description, .term_and_condition {
+                page-break-inside: avoid;
+            }
         </style>
     </head>
 
@@ -164,11 +168,11 @@
         </header>
         {{-- <hr style="border: 1px solid black;"> --}}
 
-
         {{-- <footer>
             Copyright 2021
         </footer> --}}
 
+        {{-- @dd($quote) --}}
         <div class="container">
             <div class="header">
                 <div class="row">
@@ -240,7 +244,7 @@
                     </table>
                 </div>
 
-                <div class="table items">
+                <div class="table quote_item">
                     <table>
                         <thead>
                             <tr>
@@ -306,7 +310,7 @@
                     </table>
                 </div>
 
-                <div class="table items">
+                <div class="table description">
                     <table>
                         <thead>
                             <tr>
@@ -320,55 +324,56 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table items">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Term And Condition</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{!! $quote->term_and_condition !!}</td>
-                            </tr>
-                        </tbody>
+
+                {{-- <div class="page_break"></div> --}}
+                <div class="term_and_condition">
+                    <div class="table items">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Term And Condition</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{!! $quote->term_and_condition !!}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <table class="sale-summary">
+                        <tr>
+                            <td>{{ __('admin::app.quotes.sub-total') }}</td>
+                            <td>-</td>
+                            <td>{!! core()->formatBasePrice($quote->sub_total, true) !!}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ __('admin::app.quotes.tax') }}</td>
+                            <td>-</td>
+                            <td>{!! core()->formatBasePrice($quote->tax_amount, true) !!}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ __('admin::app.quotes.discount') }}</td>
+                            <td>-</td>
+                            <td>{!! core()->formatBasePrice($quote->discount_amount, true) !!}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ __('admin::app.quotes.adjustment') }}</td>
+                            <td>-</td>
+                            <td>{!! core()->formatBasePrice($quote->adjustment_amount, true) !!}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>{{ __('admin::app.quotes.grand-total') }}</strong></td>
+                            <td><strong>-</strong></td>
+                            <td><strong>{!! core()->formatBasePrice($quote->grand_total, true) !!}</strong></td>
+                        </tr>
                     </table>
                 </div>
-
-                <table class="sale-summary">
-                    <tr>
-                        <td>{{ __('admin::app.quotes.sub-total') }}</td>
-                        <td>-</td>
-                        <td>{!! core()->formatBasePrice($quote->sub_total, true) !!}</td>
-                    </tr>
-
-                    <tr>
-                        <td>{{ __('admin::app.quotes.tax') }}</td>
-                        <td>-</td>
-                        <td>{!! core()->formatBasePrice($quote->tax_amount, true) !!}</td>
-                    </tr>
-
-                    <tr>
-                        <td>{{ __('admin::app.quotes.discount') }}</td>
-                        <td>-</td>
-                        <td>{!! core()->formatBasePrice($quote->discount_amount, true) !!}</td>
-                    </tr>
-
-                    <tr>
-                        <td>{{ __('admin::app.quotes.adjustment') }}</td>
-                        <td>-</td>
-                        <td>{!! core()->formatBasePrice($quote->adjustment_amount, true) !!}</td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>{{ __('admin::app.quotes.grand-total') }}</strong></td>
-                        <td><strong>-</strong></td>
-                        <td><strong>{!! core()->formatBasePrice($quote->grand_total, true) !!}</strong></td>
-                    </tr>
-                </table>
-
             </div>
-
         </div>
     </body>
 </html>

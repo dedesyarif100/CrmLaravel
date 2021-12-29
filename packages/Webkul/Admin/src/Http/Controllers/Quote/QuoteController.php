@@ -68,8 +68,8 @@ class QuoteController extends Controller
     public function create()
     {
         $lead = $this->leadRepository->find(request('id'));
-
-        return view('admin::quotes.create', compact('lead'));
+        $coba = 'Hallo Dede';
+        return view('admin::quotes.create', compact('lead', 'coba'));
     }
 
     /**
@@ -80,6 +80,7 @@ class QuoteController extends Controller
      */
     public function store(AttributeForm $request)
     {
+        // dd($request->all());
         Event::dispatch('quote.create.before');
 
         $quote = $this->quoteRepository->create(request()->all());
@@ -208,6 +209,7 @@ class QuoteController extends Controller
     public function print($id)
     {
         $quote = $this->quoteRepository->findOrFail($id);
+        // dd($quote);
 
         return PDF::loadHTML(view('admin::quotes.pdf', compact('quote'))->render())
             ->setPaper('a4')

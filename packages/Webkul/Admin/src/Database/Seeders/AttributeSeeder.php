@@ -324,7 +324,7 @@ class AttributeSeeder extends Seeder
                 'lookup_type'     => NULL,
                 'validation'      => NULL,
                 'sort_order'      => '3',
-                'is_required'     => '0',
+                'is_required'     => '1',
                 'is_unique'       => '0',
                 'quick_add'       => '1',
                 'is_user_defined' => '0',
@@ -480,7 +480,22 @@ class AttributeSeeder extends Seeder
                 'is_user_defined' => '0',
                 'created_at'      => $now,
                 'updated_at'      => $now,
-            ]
+            ], [
+                'id'              => '33',
+                'code'            => 'term_and_condition',
+                'name'            => 'Term And Condition',
+                'type'            => 'htmleditor',
+                'entity_type'     => 'quotes',
+                'lookup_type'     => 'leads',
+                'validation'      => NULL,
+                'sort_order'      => '14',
+                'is_required'     => '1',
+                'is_unique'       => '0',
+                'quick_add'       => '1',
+                'is_user_defined' => '0',
+                'created_at'      => $now,
+                'updated_at'      => $now,
+            ],
         ]);
     }
 }

@@ -18,9 +18,9 @@
         </div>
 
         {!! view_render_event('admin.quotes.edit.header.after', ['quote' => $quote]) !!}
-        {{-- @dd('cek') --}}
-        <form method="POST" action="{{ route('admin.quotes.update', $quote->id) }}" @submit.prevent="onSubmit" enctype="multipart/form-data">
 
+        <form method="POST" action="{{ route('admin.quotes.update', $quote->id) }}" @submit.prevent="onSubmit" enctype="multipart/form-data">
+            {{-- @dd($quote->term_and_condition) --}}
             <div class="page-content">
                 <div class="form-container">
 
@@ -131,9 +131,8 @@
 
                             <accordian :title="'{{ __('admin::app.quotes.quote-items') }}'" :active="true">
                                 <div slot="body">
-
+                                    quote item
                                     <quote-item-list :data='@json($quote->items)'></quote-item-list>
-
                                 </div>
                             </accordian>
 
@@ -202,7 +201,7 @@
                                         {{ __('admin::app.quotes.discount') }}
                                          <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
                                     </label>
-                                <div>
+                                </div>
                             </th>
 
                             <th class="tax">
@@ -218,7 +217,7 @@
                                 <div class="form-group">
                                     {{ __('admin::app.quotes.total') }}
                                     <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
-                                    </div>
+                                </div>
                             </th>
 
                             <th class="actions"></th>
@@ -700,6 +699,7 @@
             let tampung = [];
             let textarea;
 
+            // TABEL UNTUK MENAMPILKAN DATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
             let tabel = $('#gridContainer').dxDataGrid({
                 dataSource: markup,
                 keyExpr: 'id',
@@ -727,9 +727,10 @@
                 onSelectionChanged: selectionChanged
             }).dxDataGrid('instance');
 
+            // BUTTON SENDDATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
             let send = $('#submitButton').dxButton({
                 stylingMode: 'contained',
-                text: 'Contained',
+                text: 'Send Data',
                 type: 'success',
                 width: 120,
                 onClick() {
@@ -739,6 +740,7 @@
                 },
             });
 
+            // BUTTON KIRIM TEMPLATE KE TERM_AND_CONDITION DI DALAM POPUP DEV EXTREME ----------------------------------------------------------------------
             $(document).on('click', '#submitButton', function() {
                 console.log('button telah di klik');
                 selectedTemplate.map((val) => {
@@ -748,8 +750,9 @@
                 });
             });
 
-            // ---------------------------------------------------------
+            // MUNCULKAN EDITOR DARI DEV EXTREME ----------------------------------------------------------------------
             const editorInstance = $('.html-editor').dxHtmlEditor({
+                value: @json( $quote->term_and_condition ),
                 onValueChanged(e) {
                     $('#term_and_condition').html(e.value)
                 },
@@ -789,6 +792,7 @@
                 }
             }).dxHtmlEditor('instance');
 
+            // MUNCULKAN POPUP DALAM EDITOR DEV EXTREME ----------------------------------------------------------------------
             popupInstance = $('#popup').dxPopup({
                 showTitle: true,
                 title: 'Markup',

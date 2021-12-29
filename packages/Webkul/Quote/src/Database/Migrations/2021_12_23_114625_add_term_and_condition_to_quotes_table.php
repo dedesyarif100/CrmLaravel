@@ -14,7 +14,7 @@ class AddTermAndConditionToQuotesTable extends Migration
     public function up()
     {
         Schema::table('quotes', function (Blueprint $table) {
-            $table->string('term_and_condition', 3000)->after('description')->nullable();
+            $table->string('term_and_condition', 3000)->after('description');
         });
     }
 
