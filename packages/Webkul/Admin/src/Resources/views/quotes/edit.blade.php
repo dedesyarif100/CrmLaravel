@@ -663,33 +663,33 @@
     </script>
 
     <script>
-        window.onload = function() {
-            tinymce.init({
-                selector: 'textarea#description'
-            });
-        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         let selectedTemplate = [];
 
         const markup = [
-            // {
-            //     id: 1,
-            //     Template: 'Perjanjian Kerja'
-            // },
-            // {
-            //     id: 2,
-            //     Template: 'Asuransi Kerja'
-            // },
-            // {
-            //     id: 3,
-            //     Template: 'Upah By Project'
-            // },
+            {
+                id: 1,
+                template: 'Perjanjian Kerja'
+            },
+            {
+                id: 2,
+                template: 'Asuransi Kerja'
+            },
+            {
+                id: 3,
+                template: 'Upah By Project'
+            },
         ];
 
         $(function() {
             function selectionChanged(e) {
                 selectedTemplate = e.selectedRowsData.map((data) => {
-                    return data.Template;
+                    return data.template;
                 });
             }
 
@@ -699,62 +699,13 @@
             let tampung = [];
             let textarea;
 
-            // TABEL UNTUK MENAMPILKAN DATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
-            let tabel = $('#gridContainer').dxDataGrid({
-                dataSource: markup,
-                keyExpr: 'id',
-                showBorders: true,
-                selection: {
-                    mode: 'multiple',
-                    showCheckBoxesMode: "always"
-                },
-                paging: {
-                    enabled: false,
-                },
-                editing: {
-                    mode: 'batch',
-                    allowUpdating: true,
-                    allowAdding: true,
-                    allowDeleting: true,
-                    selectTextOnEditStart: true,
-                    startEditAction: 'click',
-                },
-                columns: [
-                    {
-                        dataField: 'Template',
-                    }
-                ],
-                onSelectionChanged: selectionChanged
-            }).dxDataGrid('instance');
-
-            // BUTTON SENDDATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
-            let send = $('#submitButton').dxButton({
-                stylingMode: 'contained',
-                text: 'Send Data',
-                type: 'success',
-                width: 120,
-                onClick() {
-                    DevExpress.ui.notify('The Contained button was clicked');
-                    console.log(typeof(editorInstance));
-                    $('#popup').dxPopup('hide');
-                },
-            });
-
-            // BUTTON KIRIM TEMPLATE KE TERM_AND_CONDITION DI DALAM POPUP DEV EXTREME ----------------------------------------------------------------------
-            $(document).on('click', '#submitButton', function() {
-                console.log('button telah di klik');
-                selectedTemplate.map((val) => {
-                    data = $('.ql-editor').text();
-                    textarea = $('.ql-editor').text( data + ' - ' + val + '\n');
-                    // DILANJUTKAN BESOK UNTUK MAPPING NYA
-                });
-            });
-
-            // MUNCULKAN EDITOR DARI DEV EXTREME ----------------------------------------------------------------------
-            const editorInstance = $('.html-editor').dxHtmlEditor({
+            // MUNCULKAN EDITOR TERM AND CONDITION DARI DEV EXTREME ----------------------------------------------------------------------
+            const term_and_condition = $('#term_and_condition_htmleditor').dxHtmlEditor({
+                height: "35vh",
+                placeholder: "Term And Condition",
                 value: @json( $quote->term_and_condition ),
                 onValueChanged(e) {
-                    $('#term_and_condition').html(e.value)
+                    $('#term_and_condition_textarea').html(e.value)
                 },
                 toolbar: {
                     items: [
@@ -781,7 +732,7 @@
                         {
                             widget: 'dxButton',
                             options: {
-                                text: 'Tunjukan Markup',
+                                text: 'Template T&C',
                                 stylingMode: 'text',
                                 onClick() {
                                     popupInstance.show();
@@ -792,16 +743,151 @@
                 }
             }).dxHtmlEditor('instance');
 
-            // MUNCULKAN POPUP DALAM EDITOR DEV EXTREME ----------------------------------------------------------------------
-            popupInstance = $('#popup').dxPopup({
-                showTitle: true,
-                title: 'Markup',
-                onShowing() {
-                    $('.value-content').text(tabel.option('value'));
-                    // $('.value-content').text(editorInstance.option('value'));
+            // MUNCULKAN EDITOR DESCRIPTION DARI DEV EXTREME ----------------------------------------------------------------------
+            const description = $('#description_htmleditor').dxHtmlEditor({
+                height: "35vh",
+                placeholder: "Description",
+                value: @json( $quote->description ),
+                onValueChanged(e) {
+                    $('#description_textarea').html(e.value)
+                },
+                toolbar: {
+                    items: [
+                        'undo',
+                        'redo',
+                        'separator',
+                        {
+                            name: 'header',
+                            acceptedValues: [false, 1, 2, 3, 4, 5],
+                        },
+                        'separator',
+                        'bold',
+                        'italic',
+                        'strike',
+                        'underline',
+                        'separator',
+                        'alignLeft',
+                        'alignCenter',
+                        'alignRight',
+                        'alignJustify',
+                        'separator',
+                        'orderedList',
+                        'bulletList'
+                    ],
                 }
-            }).dxPopup('instance');
-            console.log(popupInstance);
+            }).dxHtmlEditor('instance');
+
+            $(document).ready(() => {
+                $('body').append(
+                    `<div id="popup">
+                        <div class="value-content">
+                            <div id="gridContainer"></div>
+                            <div class="options">
+                                <div class="option">
+                                    <div id="submitButton"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                );
+
+                // TABEL UNTUK MENAMPILKAN DATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
+                let tabel = $('#gridContainer').dxDataGrid({
+                    dataSource: @json( $dataTermAndConditions ),
+                    keyExpr: 'id',
+                    showBorders: true,
+                    selection: {
+                        mode: 'multiple',
+                        showCheckBoxesMode: "always"
+                    },
+                    paging: {
+                        enabled: false,
+                    },
+                    editing: {
+                        mode: 'form',
+                        allowUpdating: true,
+                        allowAdding: true,
+                        allowDeleting: true,
+                        // selectTextOnEditStart: true,
+                        startEditAction: 'click',
+                    },
+                    columns: [
+                        {
+                            dataField: 'template',
+                        }
+                    ],
+                    onSelectionChanged: selectionChanged,
+                    onRowInserting: function(e) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('admin.termandcondition.create') }}",
+                            data: {
+                                template: e.data.template,
+                            },
+                            success: function(data) {
+                                toastr.success(data.message);
+                            }
+                        });
+                    },
+                    onRowUpdating: function(e) {
+                        $.ajax({
+                            type: 'PUT',
+                            url: "{{ url('admin/termandcondition/update') }}" + '/' + e.oldData.id,
+                            data: {
+                                id: e.oldData.id,
+                                template: e.newData.template
+                            },
+                            success: function(data) {
+                                toastr.success(data.message);
+                            }
+                        });
+                    },
+                    onRowRemoving: function(e) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: "{{ url('admin/termandcondition/delete') }}" + '/' + e.data.id,
+                            data: {
+                                id: e.data.id,
+                            },
+                            success: function(data) {
+                                toastr.success(data.message);
+                            }
+                        });
+                    }
+                }).dxDataGrid('instance');
+
+                // BUTTON KIRIM TEMPLATE KE TERM_AND_CONDITION DI DALAM POPUP DEV EXTREME ----------------------------------------------------------------------
+                $(document).on('click', '#submitButton', function() {
+                    hasilMap = selectedTemplate.map((val) => {
+                        return `<li data-list="ordered" style="text-align: left;">${val}</li>`;
+                    });
+                    $('#term_and_condition_htmleditor').find('.ql-editor').append(`<ol>${hasilMap}</ol>`);
+                    $('#term_and_condition_textarea').html(
+                        $('#term_and_condition_htmleditor').find('.ql-editor').html()
+                    );
+                });
+
+                // BUTTON SENDDATA DI DALAM POPUP EDITOR TERM_AND_CONDITION DEV EXTREME ----------------------------------------------------------------------
+                let send = $('#submitButton').dxButton({
+                    stylingMode: 'contained',
+                    text: 'Submit',
+                    type: 'success',
+                    width: 120,
+                    onClick() {
+                        DevExpress.ui.notify('Data Berhasil Ditambahkan');
+                        $('#popup').dxPopup('hide');
+                    },
+                });
+
+                // MUNCULKAN POPUP DALAM EDITOR DEV EXTREME ----------------------------------------------------------------------
+                popupInstance = $('#popup').dxPopup({
+                    showTitle: true,
+                    title: 'Template',
+                    onShowing() {
+                        $('.value-content').text(tabel.option('value'));
+                    }
+                }).dxPopup('instance');
+            });
         });
     </script>
 @endpush

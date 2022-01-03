@@ -4,11 +4,17 @@ namespace Webkul\Admin\Http\Controllers\Quote;
 
 use Illuminate\Support\Facades\Event;
 use Barryvdh\DomPDF\Facade as PDF;
+use DB;
+use Request;
 use Webkul\Admin\DataGrids\Quote\QuoteDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Attribute\Http\Requests\AttributeForm;
+use Webkul\Attribute\Models\Attribute;
 use Webkul\Quote\Repositories\QuoteRepository;
 use Webkul\Lead\Repositories\LeadRepository;
+use Webkul\Quote\Models\Quote;
+use Webkul\Quote\Models\QuoteItem;
+use Webkul\TermAndCondition\Models\TermAndCondition;
 
 class QuoteController extends Controller
 {
@@ -68,8 +74,9 @@ class QuoteController extends Controller
     public function create()
     {
         $lead = $this->leadRepository->find(request('id'));
-        $coba = 'Hallo Dede';
-        return view('admin::quotes.create', compact('lead', 'coba'));
+        $dataTermAndConditions = DB::table('term_and_conditions')->get();
+        // dd($tes);
+        return view('admin::quotes.create', compact('lead', 'dataTermAndConditions'));
     }
 
     /**
@@ -107,8 +114,9 @@ class QuoteController extends Controller
     public function edit($id)
     {
         $quote = $this->quoteRepository->findOrFail($id);
+        $dataTermAndConditions = DB::table('term_and_conditions')->get();
 
-        return view('admin::quotes.edit', compact('quote'));
+        return view('admin::quotes.edit', compact('quote', 'dataTermAndConditions'));
     }
 
     /**

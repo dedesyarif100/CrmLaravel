@@ -62,6 +62,7 @@ class QuoteRepository extends Repository
     {
         // dd($this->quoteItemRepository);
         $quote = parent::create($data);
+        dd('stop');
 
         // $this->attributeValueRepository->save($data, $quote->id);
         // CARI TAU, KENAPA INI BISA MACET KETIKA CREATE QUOTE

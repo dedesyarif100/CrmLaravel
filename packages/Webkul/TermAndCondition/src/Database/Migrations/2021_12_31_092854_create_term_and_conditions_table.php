@@ -15,7 +15,7 @@ class CreateTermAndConditionsTable extends Migration
     {
         Schema::create('term_and_conditions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description')->nullable();
+            $table->string('template');
             $table->timestamps();
         });
     }

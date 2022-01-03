@@ -117,6 +117,16 @@ Route::group(['middleware' => ['web']], function () {
                 Route::put('mass-destroy', 'QuoteController@massDestroy')->name('admin.quotes.mass_delete');
             });
 
+            // TERM AND CONDITION
+            Route::group([
+                'prefix'    => 'termandcondition',
+                'namespace' => 'Webkul\Admin\Http\Controllers\TermAndCondition',
+            ], function() {
+                Route::post('create', 'TermAndConditionController@create')->name('admin.termandcondition.create');
+                Route::put('update/{id}', 'TermAndConditionController@update')->name('admin.termandcondition.update');
+                Route::delete('delete/{id}', 'TermAndConditionController@delete')->name('admin.termandcondition.delete');
+            });
+
             Route::group([
                 'prefix'    => 'activities',
                 'namespace' => 'Webkul\Admin\Http\Controllers\Activity',

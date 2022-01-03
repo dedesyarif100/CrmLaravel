@@ -235,6 +235,7 @@ return [
         Webkul\UI\Providers\UIServiceProvider::class,
         Webkul\User\Providers\UserServiceProvider::class,
         Webkul\Workflow\Providers\WorkflowServiceProvider::class,
+        // Webkul\TermAndCondition\Providers\TermAndConditionProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
     ],
 

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LeadTypeSeeder::class);
         $this->call(LeadSourceSeeder::class);
         $this->call(WorkflowSeeder::class);
+        $this->call(TermAndConditionSeeder::class);
     }
 }
