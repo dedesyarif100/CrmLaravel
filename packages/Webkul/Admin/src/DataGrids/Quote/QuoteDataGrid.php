@@ -39,7 +39,6 @@ class QuoteDataGrid extends DataGrid
      */
     public function init()
     {
-        // dd('cek');
         $this->setRowProperties([
             'backgroundColor' => '#ffd0d6',
             'condition' => function ($row) {
@@ -218,11 +217,10 @@ class QuoteDataGrid extends DataGrid
     public function prepareActions()
     {
         $this->addAction([
-            'title'  => trans('ui::app.datagrid.print'),
+            'title'  => 'btnPrint',
             'method' => 'GET',
             'route'  => 'admin.quotes.print',
             'icon'   => 'export-icon',
-            'target' => '_blank'
         ]);
 
         $this->addAction([

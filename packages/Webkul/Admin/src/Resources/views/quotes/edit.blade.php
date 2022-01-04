@@ -4,7 +4,26 @@
     {{ __('admin::app.quotes.edit-title') }}
 @stop
 
+@section('css')
+    <style>
+        #backToTop {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            bottom: 20px;
+            right: 30px;
+        }
+        .quote-item-list td:not(:first-child) input {
+            text-align: right;
+        }
+    </style>
+@endsection
+
 @section('content-wrapper')
+    <button id="backToTop" class="btn btn-md btn-primary" onclick="backToTop();">
+        <i class="fad fa-angle-double-up"></i>
+    </button>
+
     <div class="content full-page adjacent-center">
         {!! view_render_event('admin.quotes.edit.header.before', ['quote' => $quote]) !!}
 
@@ -181,7 +200,7 @@
                                 <div class="form-group">
                                     <label class="required">
                                          {{ __('admin::app.quotes.price') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                                        <span class="currency-code">(Rp)</span>
                                     </label>
                                 </div>
                             </th>
@@ -190,7 +209,7 @@
                                 <div class="form-group">
                                     <label class="required">
                                         {{ __('admin::app.quotes.amount') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                                        <span class="currency-code">(Rp)</span>
                                     </label>
                                 </div>
                             </th>
@@ -199,7 +218,7 @@
                                 <div class="form-group">
                                     <label class="required">
                                         {{ __('admin::app.quotes.discount') }}
-                                         <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                                         <span class="currency-code">(Rp)</span>
                                     </label>
                                 </div>
                             </th>
@@ -208,7 +227,7 @@
                                 <div class="form-group">
                                     <label class="required">
                                         {{ __('admin::app.quotes.tax') }}
-                                        <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                                        <span class="currency-code">(Rp)</span>
                                     </label>
                                 </div>
                             </th>
@@ -216,7 +235,7 @@
                             <th class="total">
                                 <div class="form-group">
                                     {{ __('admin::app.quotes.total') }}
-                                    <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                                    <span class="currency-code">(Rp)</span>
                                 </div>
                             </th>
 
@@ -248,7 +267,7 @@
                     <tr>
                         <td>
                             {{ __('admin::app.quotes.sub-total') }}
-                            <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                            <span class="currency-code">(Rp)</span>
                         </td>
 
                         <td>-</td>
@@ -263,7 +282,7 @@
                     <tr>
                         <td>
                             {{ __('admin::app.quotes.discount') }}
-                            <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                            <span class="currency-code">(Rp)</span>
                         </td>
 
                         <td>-</td>
@@ -278,7 +297,7 @@
                     <tr>
                         <td>
                             {{ __('admin::app.quotes.tax') }}
-                            <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                            <span class="currency-code">(Rp)</span>
                         </td>
 
                         <td>-</td>
@@ -293,7 +312,7 @@
                     <tr>
                         <td>
                             {{ __('admin::app.quotes.adjustment') }}
-                            <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                            <span class="currency-code">(Rp)</span>
                         </td>
 
                         <td>-</td>
@@ -319,7 +338,7 @@
                     <tr>
                         <td>
                             {{ __('admin::app.quotes.grand-total') }}
-                            <span class="currency-code">({{ core()->currencySymbol(config('app.currency')) }})</span>
+                            <span class="currency-code">(Rp)</span>
                         </td>
 
                         <td>-</td>
@@ -669,22 +688,11 @@
             }
         });
 
-        let selectedTemplate = [];
+        function backToTop() {
+            window.scrollTo(0,0);
+        }
 
-        const markup = [
-            {
-                id: 1,
-                template: 'Perjanjian Kerja'
-            },
-            {
-                id: 2,
-                template: 'Asuransi Kerja'
-            },
-            {
-                id: 3,
-                template: 'Upah By Project'
-            },
-        ];
+        let selectedTemplate = [];
 
         $(function() {
             function selectionChanged(e) {
@@ -801,19 +809,33 @@
                         showCheckBoxesMode: "always"
                     },
                     paging: {
-                        enabled: false,
+                        pageSize: 10,
+                    },
+                    pager: {
+                        visible: true,
+                        allowedPageSizes: [5, 10],
+                        showPageSizeSelector: true,
+                        showInfo: true,
+                        showNavigationButtons: true,
                     },
                     editing: {
                         mode: 'form',
                         allowUpdating: true,
                         allowAdding: true,
                         allowDeleting: true,
-                        // selectTextOnEditStart: true,
                         startEditAction: 'click',
+                    },
+                    filterRow: {
+                        visible: true,
+                        applyFilter: 'auto',
                     },
                     columns: [
                         {
                             dataField: 'template',
+                            validationRules: [{ type: "required" }],
+                            headerFilter: {
+                                allowSearch: true,
+                            },
                         }
                     ],
                     onSelectionChanged: selectionChanged,
@@ -883,7 +905,9 @@
                 popupInstance = $('#popup').dxPopup({
                     showTitle: true,
                     title: 'Template',
+                    dragEnabled: false,
                     onShowing() {
+                        tabel.clearSelection();
                         $('.value-content').text(tabel.option('value'));
                     }
                 }).dxPopup('instance');

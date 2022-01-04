@@ -60,13 +60,10 @@ class QuoteRepository extends Repository
      */
     public function create(array $data)
     {
-        // dd($this->quoteItemRepository);
+        // FUNGSI UNTUK MEMBUAT QUOTE
         $quote = parent::create($data);
-        dd('stop');
 
-        // $this->attributeValueRepository->save($data, $quote->id);
-        // CARI TAU, KENAPA INI BISA MACET KETIKA CREATE QUOTE
-
+        // FUNGSI UNTUK MEMBUAT QUOTE ITEM
         foreach ($data['items'] as $itemData) {
             $this->quoteItemRepository->create(array_merge($itemData, [
                 'quote_id' => $quote->id,

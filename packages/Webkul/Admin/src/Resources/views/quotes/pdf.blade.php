@@ -3,7 +3,6 @@
     <head>
         <meta http-equiv="Cache-control" content="no-cache">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
 
         <style type="text/css">
             * {
@@ -24,8 +23,6 @@
                 padding: 0px;
                 margin: 0;
                 display: block;
-                /* background-color: yellow; */
-                /* padding-top: 40px; */
             }
 
             .quote-summary {
@@ -109,10 +106,7 @@
                 left: 0cm;
                 right: 0cm;
                 height: 3cm;
-                /* background-color: red; */
                 border-bottom: 5px solid #af974f;
-                /* padding-bottom: 10px; */
-                /* opacity: 0.7; */
             }
 
             /** Define the footer rules **/
@@ -126,8 +120,6 @@
 
             .row {
                 content: "";
-                /* display: table; */
-                /* clear: both; */
             }
 
             .col {
@@ -166,25 +158,8 @@
                 </div>
             </div>
         </header>
-        {{-- <hr style="border: 1px solid black;"> --}}
 
-        {{-- <footer>
-            Copyright 2021
-        </footer> --}}
-
-        {{-- @dd($quote) --}}
         <div class="container">
-            <div class="header">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="text-center">{{ __('admin::app.quotes.quote') }}</h1>
-                    </div>
-                </div>
-                {{-- @dd( public_path('storage/logo/monster-logo.png') ) --}}
-                <div class="image">
-                    {{-- <img class="logo" src="{{ Storage::url(core()->getConfigData('sales.orderSettings.quote_slip_design.logo')) }}"/> --}}
-                </div>
-            </div>
 
             <div class="quote-summary">
                 <div class="row">
@@ -235,7 +210,6 @@
                                         <p>{{ $quote->shipping_address['address'] }}</p>
                                         <p>{{ $quote->shipping_address['postcode'] . ' ' .$quote->shipping_address['city'] }} </p>
                                         <p>{{ $quote->shipping_address['state'] }}</p>
-                                        {{-- @dd( $quote->shipping_address['country']  ) --}}
                                         <p>{{ core()->country_name($quote->shipping_address['country']) }}</p>
                                     </td>
                                 @endif
@@ -252,8 +226,6 @@
 
                                 <th>{{ __('admin::app.quotes.product-name') }}</th>
 
-                                {{-- <th>{{ __('admin::app.quotes.description') }}</th> --}}
-
                                 <th class="text-center">{{ __('admin::app.quotes.price') }}</th>
 
                                 <th class="text-center">{{ __('admin::app.quotes.quantity') }}</th>
@@ -267,43 +239,17 @@
                                 <th class="text-center">{{ __('admin::app.quotes.grand-total') }}</th>
                             </tr>
                         </thead>
-
-                        {{-- <tbody>
-                            @foreach ($quote->items as $item)
-                                <tr>
-                                    <td>{{ $item->sku }}</td>
-
-                                    <td>
-                                        {{ $item->name }}
-                                    </td>
-
-                                    <td>{{ $quote->description }}</td>
-
-                                    <td>{!! core()->formatBasePrice($item->price, true) !!}</td>
-
-                                    <td class="text-center">{{ $item->quantity }}</td>
-
-                                    <td class="text-center">{!! core()->formatBasePrice($item->total, true) !!}</td>
-
-                                    <td class="text-center">{!! core()->formatBasePrice($item->discount_amount, true) !!}</td>
-
-                                    <td class="text-center">{!! core()->formatBasePrice($item->tax_amount, true) !!}</td>
-
-                                    <td class="text-center">{!! core()->formatBasePrice($item->total + $item->tax_amount, true) !!}</td>
-                                </tr>
-                            @endforeach
-                        </tbody> --}}
                         <tbody>
                             @foreach ($quote->items as $item)
                                 <tr>
                                     <td>{{ $item->sku }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ number_format($item->price, 2, ',', '.') }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ number_format($item->total, 2, ',', '.') }}</td>
-                                    <td>{{ number_format($item->discount_amount, 2, ',', '.') }}</td>
-                                    <td>{{ number_format($item->tax_amount, 2, ',', '.') }}</td>
-                                    <td>{{ number_format($item->total + $item->tax_amount, 2, ',', '.') }}</td>
+                                    <td align="right">{{ number_format($item->price, 2, ',', '.') }}</td>
+                                    <td align="right">{{ $item->quantity }}</td>
+                                    <td align="right">{{ number_format($item->total, 2, ',', '.') }}</td>
+                                    <td align="right">{{ number_format($item->discount_amount, 2, ',', '.') }}</td>
+                                    <td align="right">{{ number_format($item->tax_amount, 2, ',', '.') }}</td>
+                                    <td align="right">{{ number_format($item->total + $item->tax_amount, 2, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

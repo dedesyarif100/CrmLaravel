@@ -75,7 +75,6 @@ class QuoteController extends Controller
     {
         $lead = $this->leadRepository->find(request('id'));
         $dataTermAndConditions = DB::table('term_and_conditions')->get();
-        // dd($tes);
         return view('admin::quotes.create', compact('lead', 'dataTermAndConditions'));
     }
 
@@ -87,9 +86,9 @@ class QuoteController extends Controller
      */
     public function store(AttributeForm $request)
     {
-        // dd($request->all());
         Event::dispatch('quote.create.before');
 
+        // FUNGSI UNTUK MEMBUAT QUOTE
         $quote = $this->quoteRepository->create(request()->all());
 
         if (request('lead_id')) {

@@ -25,8 +25,16 @@
                 </template>
             @endif
         <table-component>
-        {{-- @php
-            echo 'DEDE';
-        @endphp --}}
     </div>
+    @push('scripts')
+    <script>
+        window.onload = () => {
+            document.querySelectorAll('td a[title="btnPrint"]').forEach(tagA => {
+                let target = document.createAttribute('target');
+                target.value = "_blank";
+                tagA.setAttributeNode(target);
+            });
+        }
+    </script>
+    @endpush
 @stop
